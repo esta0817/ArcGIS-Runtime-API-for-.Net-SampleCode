@@ -11,9 +11,9 @@ using System.Runtime.CompilerServices;
 
 namespace SampleCode
 {
-    internal class MapViewModel : INotifyPropertyChanged
+    internal class AccessServicesWithOAuth : INotifyPropertyChanged
     {
-        public MapViewModel()
+        public AccessServicesWithOAuth()
         {
             SetupMap();
         }
