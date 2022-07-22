@@ -11,11 +11,18 @@ using System.Runtime.CompilerServices;
 
 namespace SampleCode
 {
-    internal class MapViewModel : INotifyPropertyChanged
+    internal class AccessServicesWithOAuth : INotifyPropertyChanged
     {
-        public MapViewModel()
+        public AccessServicesWithOAuth()
         {
+            // Add the ArcGIS Online IRL
+            // Have to Login to see traffic layer
+            //AuthenticationHelper.RegisterSecureServer("https://www.arcgis.com/sharing/rest");
+
+            // Do not have to Login to see traffic layer (use token to save crediential)
+            AuthenticationHelper.ApplyTemporaryToken("https://www.arcgis.com/sharing/rest", "Zjdx-AzyG17UV2JptjOgAXi-cCXRrCb5pKG8MJz8Db2ZhtNZ4HfJCR6SvrwwHGNDByF0ZZevp9Hs1S9jVaBiToGLYHeKCJLbWUfikuf6g0DQPIA2j8J5iqeqKnMXDapX5hEbsE5Ik7-5jXb3TkVNkw..");
             SetupMap();
+            
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
@@ -36,10 +43,39 @@ namespace SampleCode
 
         private void SetupMap()
         {
-
+         
+            /* Display a Map 
             // Create a new map with a 'topographic vector' basemap.
             Map = new Map(BasemapStyle.ArcGISTopographic);
+            */
 
+            // Create a new map with a 'topographic vector' basemap.
+            var trafficMap = new Map(BasemapStyle.ArcGISTopographic);
+
+            // Create a layer to display the ArcGIS World Traffic service.
+            var trafficServiceUrl = "https://traffic.arcgis.com/arcgis/rest/services/World/Traffic/MapServer";
+            var trafficLayer = new ArcGISMapImageLayer(new Uri(trafficServiceUrl));
+
+
+            // Handle changes in the traffic layer's load status
+            trafficLayer.LoadStatusChanged += TrafficLayer_LoadStatusChanged;
+
+            // Add the traffic layer to the map's data layer collection.
+            trafficMap.OperationalLayers.Add(trafficLayer);
+
+            // Set the view model Map property with the new map.
+            this.Map = trafficMap;
+
+        }
+
+        private void TrafficLayer_LoadStatusChanged(object sender, Esri.ArcGISRuntime.LoadStatusEventArgs e)
+        {
+            // Report the error message
+            if (e.Status == Esri.ArcGISRuntime.LoadStatus.FailedToLoad)
+            {
+                var trafficLayer = (ArcGISMapImageLayer)sender;
+                System.Windows.MessageBox.Show(trafficLayer?.LoadError?.Message, "Traffic Layer Load Error");
+            }
         }
     }
 }

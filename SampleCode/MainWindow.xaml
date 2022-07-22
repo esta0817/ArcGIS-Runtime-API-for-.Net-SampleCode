@@ -9,7 +9,7 @@
         Title="MainWindow" Height="450" Width="800">
 
     <Window.Resources>
-        <local:MapViewModel x:Key="MapViewModel" />
+        <local:AccessServicesWithOAuth x:Key="MapViewModel" />
     </Window.Resources>
     <Grid>
         <esri:MapView x:Name="MainMapView"
