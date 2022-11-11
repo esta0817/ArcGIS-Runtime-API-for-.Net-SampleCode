@@ -8,19 +8,23 @@ using Esri.ArcGISRuntime.Geometry;
 using Esri.ArcGISRuntime.Mapping;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
+using Esri.ArcGISRuntime;
+using Esri.ArcGISRuntime.Portal;
+using Esri.ArcGISRuntime.Security;
 
 namespace SampleCode
 {
-    internal class AccessServicesWithOAuth : INotifyPropertyChanged
+    internal class MapViewModel : INotifyPropertyChanged
     {
-        public AccessServicesWithOAuth()
+        public MapViewModel()
         {
-            // Add the ArcGIS Online IRL
-            // Have to Login to see traffic layer
-            //AuthenticationHelper.RegisterSecureServer("https://www.arcgis.com/sharing/rest");
+            // License Key
+            string licenseKey = "runtimelite,1000,rud2041528204,none,4N5X0H4AH76HF5KHT183";
+            ArcGISRuntimeEnvironment.SetLicense(licenseKey);
+
 
             // Do not have to Login to see traffic layer (use token to save crediential)
-            AuthenticationHelper.ApplyTemporaryToken("https://www.arcgis.com/sharing/rest", "Zjdx-AzyG17UV2JptjOgAXi-cCXRrCb5pKG8MJz8Db2ZhtNZ4HfJCR6SvrwwHGNDByF0ZZevp9Hs1S9jVaBiToGLYHeKCJLbWUfikuf6g0DQPIA2j8J5iqeqKnMXDapX5hEbsE5Ik7-5jXb3TkVNkw..");
+            //AuthenticationHelper.ApplyTemporaryToken("https://www.arcgis.com/sharing/rest", "Zjdx-AzyG17UV2JptjOgAXi-cCXRrCb5pKG8MJz8Db2ZhtNZ4HfJCR6SvrwwHGNDByF0ZZevp9Hs1S9jVaBiToGLYHeKCJLbWUfikuf6g0DQPIA2j8J5iqeqKnMXDapX5hEbsE5Ik7-5jXb3TkVNkw..");
             SetupMap();
             
         }
@@ -43,7 +47,9 @@ namespace SampleCode
 
         private void SetupMap()
         {
-         
+            // Add the ArcGIS Online URL to the authentication helper.
+            AuthenticationHelper.RegisterSecureServer("https://www.arcgis.com/sharing/rest");
+
             /* Display a Map 
             // Create a new map with a 'topographic vector' basemap.
             Map = new Map(BasemapStyle.ArcGISTopographic);

@@ -18,7 +18,7 @@ namespace SampleCode
             base.OnStartup(e);
             // Note: it is not best practice to store API keys in source code.
             // The API key is referenced here for the convenience of this tutorial.
-            Esri.ArcGISRuntime.ArcGISRuntimeEnvironment.ApiKey = "AAPKa74da13764ce47b789a642c5d24f4a5c09yD0JnO_HgdsZ4aUDH8R83nOcWJ3huVb5pl8_Nn5HahwZN5fjrpaPko5ap-ru8t";
+            Esri.ArcGISRuntime.ArcGISRuntimeEnvironment.ApiKey = "AAPK4abc8792b3e14777baf3db2e02b96360GycTPwTRiIxgdqzi8K6COcyyoUpC6dwBlmXXLGkZkhIhbkQij9UPZK-E0AKenfMl";
         }
     }
 }
